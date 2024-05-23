@@ -1,0 +1,80 @@
+<launch>
+
+  <!-- <include file="$(find velodyne_pointcloud)/launch/VLP16_points.launch"/> -->
+<!--
+  <node pkg="rviz" type="rviz" name="rviz" args=""/> 
+-->
+
+<!--
+  <node pkg="sampling_algorithm" type="sampling" name="sampling_node" output="screen">
+
+    <param name="voxel_size_x" value="0.03"/>
+    <param name="voxel_size_x" value="0.03"/>
+    <param name="voxel_size_x" value="0.07"/>
+
+    <param name="upsamplingStepSize" value="0.1"/>
+  </node>
+-->
+
+  <node pkg="Lidar_MCduo_2023" type="Lidar_ROI" name="ROI_node" respawn="true">
+  <!--패키지 명, type => excutable file, cpp파일에 ROI_node로 되어있음-->
+    <!--ROI parameter-->
+    <param name="switch_ROI"  value="true"/>
+    <param name="ROI_xMin"    value="0.65"/>
+    <param name="ROI_xMax"    value="13"/> <!-- 13 -->
+    <param name="ROI_yMin"    value="-4"/> <!-- -4 -->
+    <param name="ROI_yMax"    value="4"/> <!-- 4 -->
+    <param name="ROI_zMin"    value="-1.5"/> <!-- ransac auto off (when up to ROI_zMin > -0.2) -->
+    <param name="ROI_zMax"    value="2"/>
+  </node>
+
+  <node pkg="Lidar_MCduo_2023" type="Lidar_ransac" name="ransac_node" respawn="true">
+    <!--ransac parameter-->
+    <param name="switch_UpSampling"         value="false"/>
+    <param name="switch_RanSaC"             value="true"/>
+    <param name="ransac_distanceThreshold"  value="0.075"/>
+  </node>
+
+  <node pkg="Lidar_MCduo_2023" type="Lidar_Clustering" name="Clustering_node" respawn="true" output="screen">
+	
+    <!--EuclidClustering parameter-->
+    <param name="switch_Euclid"       value="true"/>
+    <param name="EC_eps"              value="0.35"/>
+    <param name="EC_MinClusterSize"   value="3"/>
+    <param name="EC_MaxClusterSize"   value="100000"/>
+
+    <!--DBSCANclustering parameter-->
+    <param name="switch_DBscan"       value="false"/>
+    <param name="DBscan_eps"          value="0.5"/>
+    <param name="DBscan_minPts"       value="3"/>
+    <param name="DB_MinClusterSize"   value="5"/> <!--DBSCANclustering parameter-->
+    <param name="DB_MaxClusterSize"   value="10000"/>
+
+    <!--NoiseFiltering parameter-->
+    <param name="switch_NoiseFiltering" value="false"/>
+
+    <!--Filter on/off-->    
+    <param name="switch_jiwon_filter"   value="true"/>
+    <param name="switch_DY_filter"      value="true"/>
+
+    <!--jiwonFilter parameter-->
+    <param name="REMOVE_FACTOR"   value="0.4"/>
+
+    <!--DYFilter parameter-->
+    <param name="Ransac_Z_ROI"    value="-0.55"/>
+  </node>
+
+  <!-- <node pkg="Lidar_MCduo_2023" type="Lidar_visual" name="visualization_node" output="screen">
+    <param name="switch_visual" value="false"/>
+  </node> -->
+
+  <node pkg="Lidar_MCduo_2023" type="Lidar_visual_2D" name="visual_2D_node" output="screen">
+    <param name="switch_visual_2D" value="true"/>
+    <param name="location" value="$(find Lidar_MCduo_2023)/include/Lidar_MCduo_2023/plane.png"/>
+  </node>
+
+  <!-- <node pkg="Lidar_MCduo_2023" type="Lidar_delivery_filter" name="delivery_filter_node" output="screen"> -->
+
+  <!--</node>-->
+
+</launch>
