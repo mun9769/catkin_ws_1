@@ -1,4 +1,7 @@
 
+## Introduce
+* 칼만 필터를 사용하여 IMU와 GPS 데이터를 조정합니다
+* DBSCAN 알고리즘을 사용하여 라이다 데이터를 클러스터링합니다.
 
 
 
@@ -15,6 +18,7 @@ rosrun INS_Integration_MORAI gpsimu
 ```
 
 `Setting yaw`를 `90 - yaw`로 설정해주세요 
+
 아래 사진은 하나의 예시입니다
 ![Screenshot from 2024-05-23 17-44-49](https://github.com/mun9769/catkin_ws_1/assets/59304977/3c1c4f52-0fe7-4e10-94b9-d92845584fd5)
 
